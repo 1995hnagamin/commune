@@ -2,13 +2,15 @@
 #include<vector>
 using namespace std;
 
-template<typename T, T (*append)(T, T), T empty>
+template<typename T, T (*append)(T, T)>
 struct Segtree {
   vector<T> dat;
   int n;
+  T empty;
   
-  Segtree(int n_) {
+  Segtree(int n_, T empty_) {
     n = 1;
+    empty = empty_;
     while (n < n_) n *= 2;
     dat.reserve(2 * n - 1);
     for (int i = 0; i < 2 * n - 1; i++) dat[i] = empty;
