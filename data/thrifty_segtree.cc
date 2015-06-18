@@ -1,17 +1,18 @@
 // Verified AOJ DSL_2_A
 #include<vector>
-#include<iostream>
 using namespace std;
 
-template<typename T, T(*append)(T,T), T empty>
+template<typename T, T(*append)(T,T)>
 struct Segtree {
   struct Node {
     int lp, rp; // [l, r)
     T v;
     Node *lc, *rc;
-    Node(T v_, int lp_, int rp_) : v(v_), lp(lp_), rp(rp_) {}
+    Node(T v_, int lp_, int rp_) 
+      : v(v_), lp(lp_), rp(rp_), lc(NULL), rc(NULL) {}
   };
   Node* root;
+  T empty;
   
   T minv(Node* x, Node* y) {
     if (!x) return (!y)?empty:y->v;
@@ -20,7 +21,7 @@ struct Segtree {
   }
   
   void update(Node* t, int k, T a) {
-    if (t->rp - t->lp == 1 and t->lp == k) {
+    if (t->rp - t->lp <= 1 and t->lp == k) {
       t->v = a;
       return;
     } 
@@ -47,30 +48,15 @@ struct Segtree {
       return append(vl, vr);
     }
   }
-  int query(int a, int b) { return query(root, a, b); }
+  T query(int a, int b) { return query(root, a, b); }
 
-  Segtree(int n_) {
+  Segtree(int n_, T empty_) {
     int n = 1;
+    empty = empty_;
     while (n < n_) n*=2;
     root = new Node(empty, 0, n);
   }
 };
 
-int getmin(int a, int b) {
-  return (a > b ? b : a);
-}
-
-int main() {
-  int n, q;
-  cin >> n >> q;
-  Segtree<int,getmin,2147483647> t(n);
-  for (int i = 0; i < q; ++i) {
-    int com, x, y;
-    cin >> com >> x >> y;
-    if (com == 1) {
-      cout << t.query(x, y+1) << endl;
-    } else {
-      t.update(x, y);
-    }
-  }
-}
+template<typename T>
+T getmin(T a, T b) { return (a > b ? b : a); }
