@@ -1,9 +1,3 @@
-#include<iostream>
-#include<string>
-#include<sstream>
-#include<vector>
-using namespace std;
-
 vector<string> split(string str, char d) {
   istringstream s(str);
   string in;

@@ -1,6 +1,3 @@
-#include<vector>
-using namespace std;
-
 struct BIT {
   typedef int T;
   const T zero = 0;

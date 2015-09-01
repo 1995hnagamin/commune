@@ -1,5 +1,4 @@
 const int VMAX;
-const int INF;
 
 struct edge { int to, cap, rev; };
 

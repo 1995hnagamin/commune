@@ -1,6 +1,3 @@
-#include<vector>
-using namespace std;
-
 struct UnionFindTree {
   vector<int> par, rank;
   UnionFindTree(int n) {
