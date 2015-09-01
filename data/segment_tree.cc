@@ -5,10 +5,9 @@ struct segment_tree {
   T empty;
   function<T(T,T)> append;
   
-  segment_tree(int n_, function<T(T,T)> append_, T empty_) {
+  segment_tree(int n_, function<T(T,T)> append_, T empty_) :
+    append(append_), empty(empty_) {
     n = 1;
-    append = append_;
-    empty = empty_;
     while (n < n_) {
       n *= 2;
     }
