@@ -1,8 +1,3 @@
-#include<vector>
-#include<iostream>
-#include<string>
-using namespace std;
-
 vector<int> manacher(string &S) {
   int i = 0, j = 0, len = S.size();
   vector<int> R(len, 0);

@@ -1,7 +1,4 @@
 // Verified AOJ DSL_2_A
-#include<vector>
-using namespace std;
-
 template<typename T, T(*append)(T,T)>
 struct Segtree {
   struct Node {
