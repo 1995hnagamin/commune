@@ -6,6 +6,7 @@ using namespace std;
 #define REP(i,n) for (int i=0;i<(n);i++)
 #define RREP(i,n) for (int i=(n)-1;i>=0;i--)
 #define ALL(a) (a).begin(),(a).end()
+#define DEBUG(a) "(" << #a << ": " << (a) << ")"
 
 template<typename U, typename T>
 void chmin(U &x, T y) { x = min(x, y); }
