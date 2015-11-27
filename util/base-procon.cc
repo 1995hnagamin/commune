@@ -8,11 +8,11 @@ using namespace std;
 #define ALL(a) (a).begin(),(a).end()
 #define DEBUG(a) "(" << #a << ": " << (a) << ")"
 
-template<typename U, typename T>
-void chmin(U &x, T y) { x = min(x, y); }
+template<typename T>
+void chmin(T &x, T y) { x = min(x, y); }
 
-template<typename U, typename T>
-void chmax(U &x, T y) { x = max(x, y); }
+template<typename T>
+void chmax(T &x, T y) { x = max(x, y); }
 
 typedef long long int lli;
 typedef long double ld;
