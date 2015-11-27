@@ -23,12 +23,8 @@ const double EPS = 1e-14;
 const int dx[4] = {0, 1, 0, -1}; // {-1,  0,  1, -1, 1, -1, 0, 1};
 const int dy[4] = {1, 0, -1, 0}; // {-1, -1, -1,  0, 0,  1, 1, 1};
 
-{{_cursor_}}
-
 int main() {
   cout << fixed << setprecision(10);
-
-  while () {
-  }
+  {{_cursor_}}
   return 0;
 }
