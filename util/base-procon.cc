@@ -16,7 +16,7 @@ void chmax(T &x, T y) { x = max(x, y); }
 
 typedef long long int lli;
 typedef long double ld;
-typedef pair<int,int> P;
+typedef tuple<int,int> P;
 
 const int INF = INT_MAX/3;
 const double EPS = 1e-14;
