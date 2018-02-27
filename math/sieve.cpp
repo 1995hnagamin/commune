@@ -1,6 +1,6 @@
 template<int size>
 struct Sieve {
-  constexpr Sieve(): factor() {
+  Sieve(): factor() {
     factor[0] = factor[1] = 1;
     for (int p = 2; p < size; ++p) {
       if (factor[p]) { continue; }
@@ -9,7 +9,7 @@ struct Sieve {
       }
     }
   }
-  constexpr bool is_prime(int n) const {
+  bool is_prime(int n) const {
     assert(n < size);
     return !(factor[n]);
   }
