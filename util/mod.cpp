@@ -34,30 +34,30 @@ class Modulo {
 };
 
 template<int mod>
-constexpr Modulo<mod> operator+(Modulo<mod> a, Modulo<mod> b) {
+constexpr Modulo<mod> const operator+(Modulo<mod> a, Modulo<mod> b) {
   a += b;
   return a;
 }
 
 template<int mod>
-constexpr Modulo<mod> operator-(Modulo<mod> a, Modulo<mod> b) {
+constexpr Modulo<mod> const operator-(Modulo<mod> a, Modulo<mod> b) {
   a -= b;
   return a;
 }
 
 template<int mod>
-constexpr Modulo<mod> operator*(Modulo<mod> a, Modulo<mod> b) {
+constexpr Modulo<mod> const operator*(Modulo<mod> a, Modulo<mod> b) {
   a *= b;
   return a;
 }
 
 template<int mod>
-constexpr Modulo<mod> pow(Modulo<mod> a, int n) {
+constexpr Modulo<mod> const pow(Modulo<mod> a, int n) {
   return Modulo<mod>::pow(a, n, 1);
 }
 
 template<int mod>
-constexpr Modulo<mod> operator/(Modulo<mod> a, Modulo<mod> b) {
+constexpr Modulo<mod> const operator/(Modulo<mod> a, Modulo<mod> b) {
   a /= b;
   return a;
 }
@@ -72,7 +72,7 @@ struct Factorial {
       fact[i] = Mod(i) * fact[i-1];
     }
   }
-  Mod comb(int n, int k) const {
+  Mod const comb(int n, int k) const {
     assert(k <= n && n < size);
     return fact[n] / (fact[k]*fact[n-k]);
   }

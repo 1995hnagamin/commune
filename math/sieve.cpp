@@ -1,21 +1,17 @@
-const int PRIMEMAX = 10000;
-int FACTOR[PRIMEMAX];
-vector<int> Primes;
-void sieve() {
-  FACTOR[0] = FACTOR[1] = -1;
-  REP(n, PRIMEMAX) {
-    if (FACTOR[n] != 0) continue;
-    Primes.push_back(n);
-    int kn = n * n;
-    while (kn < PRIMEMAX) { FACTOR[kn] = n; kn += n; }
+template<int size>
+struct Sieve {
+  constexpr Sieve(): factor() {
+    factor[0] = factor[1] = 1;
+    for (int p = 2; p < size; ++p) {
+      if (factor[p]) { continue; }
+      for (int n = 2*p; n < size; n += p) {
+        factor[n] = p;
+      }
+    }
   }
-}
-
-bool is_prime(int n) {
-  if (n < PRIMEMAX) return FACTOR[n] == 0;
-  for (int p : Primes) {
-    if (p * p > n) break;
-    if (n % p == 0) return false;
+  constexpr bool is_prime(int n) const {
+    assert(n < size);
+    return !(factor[n]);
   }
-  return true;
-}
+  int factor[size];
+};
