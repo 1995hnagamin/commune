@@ -1,60 +1,61 @@
-const int VMAX;
+class Dinic {
+  public:
+    struct edge {
+      explicit edge(size_t t, int c, size_t r):
+        to(t), cap(c), rev(r) {}
+      size_t to; int cap; size_t rev;
+    };
 
-struct edge { int to, cap, rev; };
+    explicit Dinic(size_t v): G(v), level(v) {}
+    ~Dinic() = default;
 
-vector<edge> G[VMAX];
-bool used[VMAX];
-
-void add_edge(int from, int to, int cap) {
-  G[from].push_back((edge){to, cap, G[to].size()});
-  G[to].push_back((edge){from, cap, G[from].size() - 1});
-}
-
-int dfs(int v, int t, int f) {
-  if (v == t) return f;
-  used[v] = true;
-
-  for (int i = 0; i < G[v].size(); i++) {
-    edge &e = G[v][i];
-    if (!used[e.to] and e.cap > 0) {
-      int d = dfs(e.to, t, min(f, e.cap));
-      if (d > 0) {
-        e.cap -= d;
-        G[e.to][e.rev].cap += d;
-        return d;
+    void add_edge(size_t from, size_t to, int cap) {
+      G[from].emplace_back(to, cap, G[to].size());
+      G[to].emplace_back(from, 0, G[from].size() - 1);
+    }
+    void bfs(size_t s) {
+      std::fill(level.begin(), level.end(), -1);
+      std::queue<size_t> que;
+      level[s] = 0;
+      que.push(s);
+      while (!que.empty()) {
+        const auto v = que.front();
+        que.pop();
+        for (auto &&e : G[v]) {
+          if (e.cap <= 0 || level[e.to] >= 0) continue;
+          level[e.to] = level[v] + 1;
+          que.push(e.to);
+        }
       }
     }
-  }
-  return 0;
-}
-
-void bfs(int s) {
-  memset(level, -1, sizeof(level));
-  queue<int> que;
-  level[s] = 0;
-  que.push(s);
-  while(!que.empty()) {
-    int v = que.front; que.pop();
-    for (int i = 0; i < G[v].size(); i++~) {
-      edge &e = G[v][i];
-      if (e.cap > 0 and level[e.to] < 0) {
-        level[e.to] = level[v] + 1;
-        que.push(e.to);
+    int dfs(size_t v, size_t t, int f) {
+      if (v == t) return f;
+      for (auto &&e : G[v]) {
+        if (e.cap <= 0 || level[v] >= level[e.to]) continue;
+        int d = dfs(e.to, t, std::min(f, e.cap));
+        if (d > 0) {
+          e.cap -= d;
+          reverse(e).cap += d;
+          return d;
+        }
+      }
+      return 0;
+    }
+    int max_flow(size_t s, size_t t) {
+      int flow = 0;
+      while (true) {
+        bfs(s);
+        if (level[t] < 0) return flow;
+        int f;
+        while ((f = dfs(s, t, INF)) > 0) {
+          flow += f;
+        }
       }
     }
-  }
-}
-
-int max_flow(int s, int t) {
-  int flow = 0;
-
-  while (true) {
-    bfs(s);
-    if (lebel[t] < 0) return flow;
-    memset(iter, 0, sizeof(iter));
-    int f;
-    while ((f = dfs(s, t, INF)) > 0) {
-      flow += f;
+  private:
+    std::vector<std::vector<edge>> G;
+    std::vector<int> level;
+    edge &reverse(edge const &e) {
+      return G[e.to][e.rev];
     }
-  }
-}
+};
