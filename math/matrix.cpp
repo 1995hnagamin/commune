@@ -1,107 +1,119 @@
 template<typename T>
-class Matrix {
-  private:
-    int m, n;
-    vector<vector<T>> data;
+class Vec {
   public:
-    Matrix(const vector<vector<T>>& data_) :
-      m(static_cast<int>(data_.size())), n(static_cast<int>(data_.front().size())), data(data_) {;}
-    Matrix(const vector<T> &vec) :
-      m(static_cast<int>(vec.size())), n(1), data(vector<vector<T>>(n, vector<T>(1))) {
-        REP(i, m) { data[i][0] = vec[i]; }
-      }
-    Matrix(int n_) : m(n_), n(n_), data(vector<vector<T>>(n, vector<T>(n))) {;}
-    Matrix(int m_, int n_) : m(m_), n(n_), data(vector<vector<T>>(m, vector<T>(n))) {;}
-    const T& get(int i, int j) const { return data[i][j]; }
-    T& get(int i, int j) { return data[i][j]; }
-    int row() const { return m; }
-    int colomn() const { return n; }
+    using type = std::vector<T>;
 
-    static Matrix identity(int n) {
-      Matrix I(n);
-      REP(i, n) { I.get(i, i) = static_cast<T>(1); }
-      return I;
-    }
+    explicit Vec(size_t s): size_(s), p(std::make_unique<type>(s)) {}
+    explicit Vec(type const &v): size_(v.size()), p(std::make_unique<type>(v)) {}
+    Vec(Vec const &v) = delete;
+    Vec &operator=(Vec const &) = delete;
+    Vec(Vec &&v) noexcept = default;
+    Vec &operator=(Vec &&v) noexcept = default;
+    ~Vec() = default;
 
-    const Matrix operator-() {
-      Matrix result(row(), colomn());
-      REP(i, row()) REP(j, colomn()) { result.get(i, j) = -get(i, j); }
-      return result;
+    Vec clone() const {
+      auto v = static_cast<Vec>(*p);
+      return v;
     }
-    const Matrix operator+(const Matrix rhs) {
-      int m = row(), n = colomn();
-      if (m != rhs.row() || n != rhs.colomn()) {
-        cerr << "cannot add (" << m << "x" << n << ") Matrix & (" << rhs.row() << "x" << rhs.colomn() << ") Matrix";
-        throw;
+    size_t const size() const {
+      return size_;
+    }
+    T &operator[](size_t i) {
+      return (*p)[i];
+    }
+    T const &operator[](size_t i) const {
+      return (*p)[i];
+    }
+    T const at(size_t i) const {
+      return (*p)[i];
+    }
+    void set(size_t i, T x) {
+      (*p)[i] = x;
+    }
+  private:
+    size_t size_;
+    std::unique_ptr<type> p;
+};
+
+template <typename T>
+class Matrix {
+  public:
+    using vec_type = std::vector<T>;
+    using type = std::vector<vec_type>;
+
+    explicit Matrix(size_t h, size_t w):
+      width_(w), height_(h), p(std::make_unique<type>(h, vec_type(w))) {}
+    explicit Matrix(size_t n): Matrix(n, n) {}
+    explicit Matrix(type const &m):
+      width_(m[0].size()), height_(m.size()), p(std::make_unique<type>(m)) {}
+    Matrix(Matrix const &m) = delete;
+    Matrix &operator=(Matrix const &m) = delete;
+    Matrix(Matrix &&m) noexcept = default;
+    Matrix &operator=(Matrix &&m) noexcept = default;
+    ~Matrix() = default;
+
+    Matrix clone() const {
+      auto m = static_cast<Matrix>(*p);
+      return m;
+    }
+    size_t const width() const {
+      return width_;
+    }
+    size_t const height() const {
+      return height_;
+    }
+    T const at(size_t i, size_t j) const {
+      return (*p)[i][j];
+    }
+    vec_type &operator[](size_t i) {
+      return (*p)[i];
+    }
+    vec_type const &operator[](size_t i) const {
+      return (*p)[i];
+    }
+    void set(size_t i, size_t j, T x) {
+      (*p)[i][j] = x;
+    }
+    static Matrix identity(size_t n) {
+      Matrix A(n);
+      for (int i = 0; i < n; ++i) {
+        A.set(i, i, -1);
       }
-      Matrix result(m, n);
-      REP(i, m) REP(j, n) { result.get(i, j) = get(i, j) + rhs.get(i, j); }
-      return result;
+      return A;
     }
-    const Matrix operator-(const Matrix &rhs) {
-      return *this + (-rhs);
-    }
-    const Matrix operator*(const Matrix &rhs) {
-      if (colomn() != rhs.row()) {
-        cerr << "cannot multiply (" << row() << "x" << colomn() << ") Matrix & (" << rhs.row() << "x" << rhs.colomn() << ") Matrix";
-        throw;
-      }
-      int m = row(), n = rhs.colomn();
-      Matrix result(m, n);
-      REP(i, m) REP(j, n) {
-        REP(k, colomn()) { result.get(i, j) += get(i, k) * rhs.get(k, j); }
-      }
-      return result;
-    }
-    const Matrix operator*(T lambda) {
-      Matrix result = this;
-      REP(i, row()) REP(j, colomn()) { result.get(i, j) *= lambda; }
-      return result;
-    }
-    const Matrix operator^(int n) {
-      if (n == 0) return identity(row());
-      if (n % 2 == 0) {
-        Matrix square = (*this) * (*this);
-        return square ^ (n / 2);
-      }
-      Matrix recurs = (*this) ^ (n - 1);
-      return (*this) * recurs;
-    }
+  private:
+    size_t width_;
+    size_t height_;
+    std::unique_ptr<type> p;
 };
 
 template<typename T>
-Matrix<T> transpose(Matrix<T> matrix) {
-  Matrix<T> result(matrix.colomn(), matrix.row());
-  REP(i, matrix.row()) REP(j, matrix.colomn()) { result.get(j, i) = matrix.get(i, j); }
-  return result;
+Vec<T> operator*(Matrix<T> const &A, Vec<T> const &x) {
+  Vec<T> y(A.height());
+  for (size_t i = 0, h = A.height(); i < h; ++i)
+    for (size_t j = 0, w = A.width(); j < w; ++j)
+      y[i] += A[i][j] * x[j];
+  return y;
 }
 
 template<typename T>
-const Matrix<T> operator*(T lambda, const Matrix<T> &rhs) {
-  return rhs * lambda;
+Matrix<T> operator*(Matrix<T> const &A, Matrix<T> const &B) {
+  assert(A.width() == B.height());
+  Matrix<T> C(A.height(), B.width());
+  for (size_t i = 0, h = A.height(); i < h; ++i)
+    for (size_t k = 0, r = A.width(); k < r; ++k)
+      for (size_t j = 0, w = B.width(); j < w; ++j)
+        C[i][j] += A[i][k] * B[k][j];
+  return C;
 }
 
 template<typename T>
-const Matrix<T> amendVertical(const Matrix<T> &upper, const Matrix<T> &lower) {
-  if (upper.colomn() != lower.colomn()) {
-    cerr << "cannot vertically amend (" << upper.row() << "x" << upper.colomn() << ") Matrix & ("
-      << lower.row() << "x" << lower.colomn() << ") Matrix";
-    throw;
+Matrix<T> pow(Matrix<T> const &A, int n) {
+  if (n == 0) {
+    return Matrix<T>::identity(A.height());
+  } else if (n % 2 > 0) {
+    return A * pow(A, n-1);
+  } else {
+    return pow(A * A, n/2);
   }
-  int m1 = upper.row(), m2 = lower.row(), n = upper.colomn();
-  Matrix<T> result(m1 + m2, n);
-  REP(i, m1) REP(j, n) { result.get(i, j) = upper.get(i, j); }
-  REP(i, m2) REP(j, n) { result.get(m1 + i, j) = lower.get(i, j); }
-  return result;
-}
-
-template<typename T>
-const Matrix<T> amendHorizontal(const Matrix<T> &left, const Matrix<T> &right) {
-  if (left.row() != right.row()) {
-    cerr << "cannot horizontally amend (" << left.row() << "x" << left.colomn() << ") Matrix & ("
-      << right.row() << "x" << right.colomn() << ") Matrix";
-    throw;
-  }
-  Matrix<T> trans = amendVertical(left.transpose(), right.transpose());
-  return trans.transpose();
 }
