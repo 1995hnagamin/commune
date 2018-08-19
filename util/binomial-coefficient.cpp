@@ -9,7 +9,7 @@ class Binom {
         }
       }
     }
-    constexpr int binom(int n, int k) const {
+    constexpr T binom(int n, int k) const {
       assert(n >= k);
       return dp[n][k];
     }
