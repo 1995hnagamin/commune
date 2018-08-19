@@ -1,4 +1,4 @@
-template<typename T = int, int max>
+template<typename T, int max>
 class Binom {
   public:
     constexpr Binom(): dp() {
