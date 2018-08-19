@@ -1,25 +1,17 @@
-vector<int> manacher(string &S) {
-  int i = 0, j = 0, len = S.size();
-  vector<int> R(len, 0);
+std::vector<size_t>
+manacher(std::string const &S) {
+  size_t i = 0, j = 0;
+  const auto len = static_cast<size_t>(S.size());
+  std::vector<size_t> R(len, 0);
   while (i < len) {
-    while (i-j >= 0 and i+j < len and S[i-j] == S[i+j]) ++j;
+    while (i >= j && i+j < len && S[i-j] == S[i+j]) ++j;
     R[i] = j;
-    int k = 1;
-    while (i-k >= 0 and i+k < len and k+R[i-k] < j) {
+    size_t k = 1;
+    while (i >= k && i+k < len && k+R[i-k] < j) {
       R[i+k] = R[i-k];
       ++k;
     }
     i+=k; j-=k;
   }
   return R;
-}
-
-int main() {
-  string s;
-  while (cin >> s) {
-    for (int x : manacher(s)) {
-      cout << x;
-    }
-    cout << endl;
-  }
 }
