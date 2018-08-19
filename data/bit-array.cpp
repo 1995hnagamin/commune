@@ -1,10 +1,8 @@
-template<typename T, int size>
+template<typename T, int N>
 class Bit {
   public:
-    Bit(T z): zero(z) {
-      for (int i = 0; i <= N; ++i) {
-        bit[i] = zero;
-      }
+    Bit(T z): zero(z), bit() {
+      std::fill(bit.begin(), bit.end(), zero);
     }
 
     // [1,k]
@@ -28,7 +26,6 @@ class Bit {
     }
 
   private:
-    int const N = size;
     T const zero;
-    std::array<T, size+1> bit;
+    std::array<T, N+1> bit;
 };
