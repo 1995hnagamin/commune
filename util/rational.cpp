@@ -1,3 +1,4 @@
+namespace { // Rational
 typedef long long Integer;
 Integer gcd(Integer a, Integer b) { return a > 0 ? gcd(b % a, a) : b; }
 struct rational {
@@ -67,3 +68,5 @@ ostream &operator<<(ostream &os, const rational &r) {
   os << r.p << "/" << r.q;
   return os;
 }
+
+} // namespace

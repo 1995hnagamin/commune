@@ -1,3 +1,5 @@
+namespace  { // Matrix
+
 template<typename T>
 class Vec {
   public:
@@ -117,3 +119,5 @@ Matrix<T> pow(Matrix<T> const &A, int n) {
     return pow(A * A, n/2);
   }
 }
+
+} // namespace

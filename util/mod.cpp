@@ -1,3 +1,5 @@
+namespace  { // Mod
+
 template<int mod>
 class Modulo {
   public:
@@ -77,3 +79,5 @@ struct Factorial {
     return fact[n] / (fact[k]*fact[n-k]);
   }
 };
+
+} // namespace
