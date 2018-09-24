@@ -1,10 +1,10 @@
 template<typename T, typename FnT>
 class SegmentTree {
   public:
-    SegmentTree(FnT const &app, T const &un, size_t size):
+    explicit SegmentTree(FnT const &app, T const &un, size_t size):
       SegmentTree(app, un, std::vector<T>(size, un)) {
     }
-    SegmentTree(FnT const &app, T const &un, std::vector<T> const &v):
+    explicit SegmentTree(FnT const &app, T const &un, std::vector<T> const &v):
       append(app), unit(un), N(1 << log2(v.size())), dat(2*N-1) {
       std::copy(begin(v), end(v), begin(dat)+N-1);
       for (size_t k = N - 1; k > 0; --k) {
