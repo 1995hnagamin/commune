@@ -4,7 +4,7 @@ template<int mod>
 class Modulo {
   public:
     constexpr Modulo(): num(0) {}
-    constexpr Modulo(int n): num(n % mod) {}
+    constexpr Modulo(int n): num(n >= 0 ? n%mod : mod-((-n)%mod)) {}
     constexpr Modulo(Modulo const &) = default;
     constexpr int data() const { return num; }
     constexpr Modulo &operator+=(Modulo other) {
