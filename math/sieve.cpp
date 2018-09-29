@@ -10,6 +10,10 @@ struct Sieve {
       }
     }
   }
+  long long int limit() const {
+    const auto p = static_cast<long long int>(primes.back());
+    return p * p;
+  }
   bool is_prime(int n) const {
     assert(n < size);
     return !(factor[n]);
