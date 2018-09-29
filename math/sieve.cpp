@@ -23,8 +23,8 @@ struct Sieve {
     return n;
   }
   bool is_prime(int n) const {
-    assert(n < size);
-    return !(factor[n]);
+    assert(1 < n && n <= limit());
+    return divisor(n) == n;
   }
   std::vector<int> prime_factors(int n) const {
     assert(0 < n && n <= limit());
