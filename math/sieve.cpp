@@ -14,6 +14,14 @@ struct Sieve {
     const auto p = static_cast<long long int>(primes.back());
     return p * p;
   }
+  int divisor(int n) const {
+    assert(1 < n && n <= limit());
+    if (n < size) { return factor[n]? factor[n]:n; }
+    for (auto &&p : primes) {
+      if (n % p == 0) { return p; }
+    }
+    return n;
+  }
   bool is_prime(int n) const {
     assert(n < size);
     return !(factor[n]);
