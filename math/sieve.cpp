@@ -26,6 +26,16 @@ struct Sieve {
     assert(n < size);
     return !(factor[n]);
   }
+  std::vector<int> prime_factors(int n) const {
+    assert(0 < n && n <= limit());
+    std::vector<int> ans;
+    while (n > 1) {
+      const auto p = divisor(n);
+      ans.push_back(p);
+      while (n % p == 0) { n /= p; }
+    }
+    return ans;
+  }
   int factor[size];
   std::vector<int> primes;
 };
