@@ -68,15 +68,20 @@ template<int mod, int size>
 struct Factorial {
   using Mod = Modulo<mod>;
   Mod fact[size];
-  constexpr Factorial(): fact() {
+  Mod invfact[size];
+  constexpr Factorial(): fact(), invfact() {
     fact[0] = 1;
     for (int i = 1; i < size; ++i) {
       fact[i] = Mod(i) * fact[i-1];
     }
+    invfact[size-1] = fact[size-1].inverse();
+    for (int i = size - 1; i > 0; --i) {
+      invfact[i-1] = invfact[i] * Mod(i);
+    }
   }
   Mod const comb(int n, int k) const {
     assert(k <= n && n < size);
-    return fact[n] / (fact[k]*fact[n-k]);
+    return fact[n] * invfact[k] * invfact[n-k];
   }
 };
 
