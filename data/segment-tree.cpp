@@ -1,3 +1,5 @@
+namespace { // segment-tree
+
 template<typename T, typename FnT>
 class SegmentTree {
   public:
@@ -48,3 +50,17 @@ class SegmentTree {
       return p;
     }
 };
+
+template<typename T, typename FnT>
+SegmentTree<T, typename std::decay<FnT>::type>
+make_segment_tree(FnT const &app, T const &un, size_t size) {
+  return SegmentTree<T, typename std::decay<FnT>::type>(app, un, size);
+}
+
+template<typename T, typename FnT>
+SegmentTree<T, typename std::decay<FnT>::type>
+make_segment_tree(FnT const &app, T const &un, std::vector<T> const &v) {
+  return SegmentTree<T, typename std::decay<FnT>::type>(app, un, v);
+}
+
+} // namespace
