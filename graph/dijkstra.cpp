@@ -9,7 +9,6 @@ template<typename WeightT>
 DijkstraResult<WeightT>
 dijkstra_algorithm(AdjacencyList<WeightT> const &g, int start, WeightT inf) {
   int const N = g.size();
-  std::vector<bool> done(N, false);
   std::vector<WeightT> dist(N, inf);
   using P = std::tuple<WeightT, int>;
   std::priority_queue<P, std::vector<P>, std::greater<P> > que;
