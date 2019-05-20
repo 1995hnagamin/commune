@@ -31,4 +31,17 @@ add_undir_edge(AdjacencyList<WeightT> &graph, int u, int v, WeightT w) {
   graph[v].emplace_back(v, u, w);
 }
 
+template<typename WeightT>
+AdjacencyList<WeightT>
+inverse_graph(AdjacencyList<WeightT> const &G) {
+  size_t const n = G.size();
+  AdjacencyList<WeightT> F(n);
+  for (size_t i = 0; i < n; ++i) {
+    for (auto &&e: G[i]) {
+      F[e.to].emplace_back(e.to, e.from, e.weight);
+    }
+  }
+  return F;
+}
+
 } // namespace
