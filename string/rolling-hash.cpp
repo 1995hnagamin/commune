@@ -13,6 +13,8 @@ class RollingHash {
         pow[z][i+1] = pow[z][i] * p[z];
       }
     }
+    size_t size() const { return n; }
+    std::string to_string() const { return str; }
     // [i, j)
     std::array<T, L> hash_range(size_t i, size_t j) const {
       std::array<T, L> ret;
@@ -21,7 +23,15 @@ class RollingHash {
       }
       return ret;
     }
-
+    void append(std::string const &s) {
+      size_t const len = s.size();
+      for (size_t z = 0; z < L; ++z) for (size_t i = 0; i < len; ++i) {
+        phash[z].push_back(T(s[i]) + phash[z].back() * p[z]);
+        pow[z].push_back(pow[z].back() * p[z]);
+      }
+      str += s;
+      n += len;
+    }
   private:
     static std::array<T, L> convert(std::array<I, L> const &v) {
       auto const n = v.size();
