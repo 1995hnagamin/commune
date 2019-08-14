@@ -1,3 +1,30 @@
+namespace { // rolling-hash
+
+template <typename T, size_t L>
+struct PowMemo {
+  PowMemo(std::array<T, L> const &base, size_t n): p(base), table(), sz(n) {
+    for (size_t z = 0; z < L; ++z) {
+      table[z] = std::vector<T>(n+1);
+      table[z][0] = static_cast<T>(1);
+    }
+    for (size_t z = 0; z < L; ++z) for (size_t i = 0; i < n; ++i) {
+      table[z][i+1] = table[z][i] * p[z];
+    }
+  }
+  T pow(size_t z, int i) const {
+    return table[z][i];
+  }
+  void extend(size_t diff) {
+    for (size_t z = 0; z < L; ++z) for (size_t i = 0; i < diff; ++i) {
+      table[z].push_back(table[z].back() * p[z]);
+    }
+    sz += diff;
+  }
+  std::array<T, L> p;
+  std::array<std::vector<T>, L> table;
+  size_t sz;
+};
+
 template<typename T, size_t L>
 class RollingHash {
   public:
@@ -52,3 +79,5 @@ class RollingHash {
     std::array<std::vector<T>, L> pow;
     std::array<std::vector<T>, L> phash;
 };
+
+} // namespace
