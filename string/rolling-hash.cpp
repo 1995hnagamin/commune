@@ -1,6 +1,7 @@
-template<typename T, size_t L, typename I = T>
+template<typename T, size_t L>
 class RollingHash {
   public:
+    template <typename I>
     explicit RollingHash(std::string const &s, std::array<I, L> const &base):
       p(convert(base)), str(s), n(str.size()), pow(), phash() {
       for (size_t z = 0; z < L; ++z) {
@@ -33,6 +34,7 @@ class RollingHash {
       n += len;
     }
   private:
+    template <typename I>
     static std::array<T, L> convert(std::array<I, L> const &v) {
       auto const n = v.size();
       std::array<T, L> w;
