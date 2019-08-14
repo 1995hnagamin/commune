@@ -25,6 +25,19 @@ struct PowMemo {
   size_t sz;
 };
 
+template <typename T, size_t L>
+struct RepSq {
+  RepSq(std::array<T, L> const &base, size_t): p(base) { }
+  T pow(size_t z, int k) const {
+    if (k == 0) { return 1; }
+    if (k & 1) { return p[z] * pow(z, k-1); }
+    auto const m = pow(z, k>>1);
+    return m * m;
+  }
+  void extend(size_t) { }
+  std::array<T, L> p;
+};
+
 template<typename T, size_t L, template <class, size_t> class Pow = PowMemo>
 class RollingHash {
   public:
