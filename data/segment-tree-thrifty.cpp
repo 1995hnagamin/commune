@@ -1,3 +1,5 @@
+namespace { // thrifty segment tree
+
 template<typename T, typename FnT, typename IndexT = int>
 class ThriftySegmentTree {
   public:
@@ -14,10 +16,10 @@ class ThriftySegmentTree {
         }
         const auto mid = (lp + rp) / 2;
         if (k < mid) {
-          if (!lc) lc = std::make_unique<Node>(unit, lp, mid);
+          if (!lc) { lc = std::make_unique<Node>(unit, lp, mid); }
           lc->update(append, unit, k, x);
         } else {
-          if (!rc) rc = std::make_unique<Node>(unit, mid, rp);
+          if (!rc) { rc = std::make_unique<Node>(unit, mid, rp); }
           rc->update(append, unit, k, x);
         }
         v = m_append(append, unit);
@@ -72,3 +74,5 @@ class ThriftySegmentTree {
       return p;
     }
 };
+
+} // namespace
