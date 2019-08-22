@@ -1,7 +1,7 @@
 template<typename T, size_t max>
-class BinomDist {
+class binom_dist {
   public:
-    BinomDist(T p): dp() {
+    binom_dist(T p): dp() {
       dp[0][0] = static_cast<T>(1);
       for (size_t n = 1; n <= max; ++n) {
         dp[n][n] = std::pow(p, n); dp[n][0] = std::pow(1-p, n);
