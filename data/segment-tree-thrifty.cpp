@@ -49,6 +49,7 @@ class ThriftySegmentTree {
       append(app), unit(un), N(1 << log2(n)),
       root(std::make_unique<Node>(un, 0, N)) {
     }
+    ThriftySegmentTree(ThriftySegmentTree &&) = default;
     ~ThriftySegmentTree() = default;
     void update(IndexT k, T x) {
       root->update(append, unit, k, x);
