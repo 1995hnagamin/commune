@@ -1,7 +1,7 @@
 namespace { // thrifty segment tree
 
 template<typename T, typename FnT, typename IndexT = int>
-class ThriftySegmentTree {
+class thrifty_segment_tree {
   public:
     struct Node {
       T v;
@@ -45,12 +45,12 @@ class ThriftySegmentTree {
         }
       }
     };
-    explicit ThriftySegmentTree(FnT const &app, T const &un, IndexT n):
+    explicit thrifty_segment_tree(FnT const &app, T const &un, IndexT n):
       append(app), unit(un), N(1 << log2(n)),
       root(std::make_unique<Node>(un, 0, N)) {
     }
-    ThriftySegmentTree(ThriftySegmentTree &&) = default;
-    ~ThriftySegmentTree() = default;
+    thrifty_segment_tree(thrifty_segment_tree &&) = default;
+    ~thrifty_segment_tree() = default;
     void update(IndexT k, T x) {
       root->update(append, unit, k, x);
     }
@@ -77,10 +77,10 @@ class ThriftySegmentTree {
 };
 
 template<typename T, typename FnT, typename IndexT = int>
-ThriftySegmentTree<T, typename std::decay<FnT>::type, IndexT>
+thrifty_segment_tree<T, typename std::decay<FnT>::type, IndexT>
 make_thrifty_segment_tree(FnT const &app, T const &un, IndexT n) {
   using F = typename std::decay<FnT>::type;
-  return ThriftySegmentTree<T, F, IndexT>(app, un, n);
+  return thrifty_segment_tree<T, F, IndexT>(app, un, n);
 }
 
 } // namespace
