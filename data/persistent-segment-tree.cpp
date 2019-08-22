@@ -3,30 +3,30 @@ namespace { // persistent segment tree
 template<typename T, typename FnT, typename IndexT = int>
 class persistent_segment_tree {
   public:
-    struct Node {
+    struct node {
       IndexT lp, rp; // [l, r)
       T v;
-      std::shared_ptr<Node> lc, rc;
-      Node(T v_, IndexT lp_, IndexT rp_): lp(lp_), rp(rp_), v(v_), lc(), rc() {
+      std::shared_ptr<node> lc, rc;
+      node(T v_, IndexT lp_, IndexT rp_): lp(lp_), rp(rp_), v(v_), lc(), rc() {
       }
       T m_append(FnT const &append, T const &unit) const {
         if (!lc) { return rc? rc->v : unit; }
         if (!rc) { return lc->v; }
         return append(lc->v, rc->v);
       }
-      std::shared_ptr<Node>
+      std::shared_ptr<node>
       update(FnT const &append, T const &unit, IndexT k, T const &a) const {
         if (rp - lp <= 1 && lp == k) {
-          auto const t = std::make_shared<Node>(a, lp, rp);
+          auto const t = std::make_shared<node>(a, lp, rp);
           return t;
         }
-        auto t = std::make_shared<Node>(*this);
+        auto t = std::make_shared<node>(*this);
         IndexT mid = (lp + rp) / 2;
         if (k < mid) {
-          auto const ch = lc? lc : std::make_shared<Node>(unit, lp, mid);
+          auto const ch = lc? lc : std::make_shared<node>(unit, lp, mid);
           t->lc = ch->update(append, unit, k, a);
         } else {
-          auto const ch = rc? rc : std::make_shared<Node>(unit, mid, rp);
+          auto const ch = rc? rc : std::make_shared<node>(unit, mid, rp);
           t->rc = ch->update(append, unit, k, a);
         }
         t->v = t->m_append(append, unit);
@@ -55,14 +55,14 @@ class persistent_segment_tree {
     explicit persistent_segment_tree(FnT const &app, T const &un, IndexT n):
       append(app), unit(un), N(p2cl2(n)), roots()
     {
-      roots.emplace_back(std::make_shared<Node>(unit, 0, N));
+      roots.emplace_back(std::make_shared<node>(unit, 0, N));
     }
 
   private:
     FnT const append;
     T const unit;
     IndexT const N;
-    std::vector<std::shared_ptr<Node>> roots;
+    std::vector<std::shared_ptr<node>> roots;
 
     static IndexT p2cl2(IndexT n) {
       IndexT N = 1;
