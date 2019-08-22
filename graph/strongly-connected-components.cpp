@@ -1,14 +1,14 @@
 namespace { // Strongnly Connected Components
 
-struct SccResult {
+struct scc_result_t {
   std::vector<int> top_index;
   std::vector<std::vector<int> > components;
 };
 
 
 template<typename T>
-SccResult
-kosaraju_scc(AdjacencyList<T> const &G) {
+scc_result_t
+kosaraju_scc(adjacency_list<T> const &G) {
   int const N = G.size();
 
   // 1st DFS

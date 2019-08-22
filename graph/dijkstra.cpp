@@ -1,13 +1,13 @@
 namespace { // Dijkstra's algorithm
 
 template<typename WeightT>
-struct DijkstraResult {
+struct dijkstra_result_t {
   std::vector<WeightT> distance;
 };
 
 template<typename WeightT>
-DijkstraResult<WeightT>
-dijkstra_algorithm(AdjacencyList<WeightT> const &g, int start, WeightT inf) {
+dijkstra_result_t<WeightT>
+dijkstra_algorithm(adjacency_list<WeightT> const &g, int start, WeightT inf) {
   int const N = g.size();
   std::vector<WeightT> dist(N, inf);
   using P = std::tuple<WeightT, int>;
