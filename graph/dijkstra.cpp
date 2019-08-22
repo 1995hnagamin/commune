@@ -7,9 +7,8 @@ struct dijkstra_result_t {
 
 template<typename WeightT>
 dijkstra_result_t<WeightT>
-dijkstra_algorithm(adjacency_list<WeightT> const &g, int start, WeightT inf) {
-  int const N = g.size();
-  std::vector<WeightT> dist(N, inf);
+dijkstra_algorithm(adjacency_list<WeightT> const &G, int start, WeightT inf) {
+  std::vector<WeightT> dist(G.size(), inf);
   using P = std::tuple<WeightT, int>;
   std::priority_queue<P, std::vector<P>, std::greater<P> > que;
   que.emplace(0, start);
@@ -20,7 +19,7 @@ dijkstra_algorithm(adjacency_list<WeightT> const &g, int start, WeightT inf) {
       continue;
     }
     dist[u] = dist2u;
-    for (auto &&e : g[u]) {
+    for (auto &&e : G[u]) {
       que.emplace(dist2u + e.weight, e.to);
     }
   }
