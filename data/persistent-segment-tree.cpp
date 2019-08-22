@@ -1,31 +1,27 @@
-// Verified AOJ DSL_2_A
-#include<vector>
-using namespace std;
-
 template<typename T, T(*append)(T,T)>
 struct Segtree {
   struct Node {
     int lp, rp; // [l, r)
     T v;
     Node *lc, *rc;
-    Node(T v_, int lp_, int rp_) : 
+    Node(T v_, int lp_, int rp_) :
       v(v_), lp(lp_), rp(rp_), lc(), rc() {}
     Node() : lc(), rc() {}
   };
   vector<Node*> roots;
   T empty;
-  
+
   T minv(Node* x, Node* y) {
     if (!x) return (!y)?empty:y->v;
     if (!y) return x->v;
     return append(x->v, y->v);
   }
-  
+
   Node* update(const Node* t, int k, T a) {
     if (t->rp - t->lp <= 1 and t->lp == k) {
       Node* t2 = new Node(a, t->lp, t->rp);
       return t2;
-    } 
+    }
     Node* t2 = t;
     int mid = (t->lp + t->rp) / 2;
     if (k < mid) {
@@ -43,7 +39,7 @@ struct Segtree {
     roots.push_back(t);
     return roots.size() - 1;
   }
-  
+
   // min([a,b))
   T query(Node* t, int a, int b) {
     if (!t) return empty;
@@ -54,8 +50,8 @@ struct Segtree {
       return append(vl, vr);
     }
   }
-  T query(int idx, int a, int b) { 
-    return query(roots[idx], a, b); 
+  T query(int idx, int a, int b) {
+    return query(roots[idx], a, b);
   }
 
   Segtree(int n_, T empty_) {
