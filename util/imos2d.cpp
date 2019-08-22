@@ -1,7 +1,7 @@
 template <typename T>
-class Imos2D {
+class imos_2d {
   public:
-    Imos2D(int r, int c): r(r), c(c), area(r+1, std::vector<T>(c+1, 0)) {}
+    imos_2d(int r, int c): r(r), c(c), area(r+1, std::vector<T>(c+1, 0)) {}
     void add(int bi, int bj, int ei, int ej) {
       bi = std::max(bi, 0); bj = std::max(bj, 0);
       ei = std::min(ei, r); ej = std::min(ej, c);
