@@ -1,7 +1,7 @@
 template<typename T>
-class Bit {
+class fenwick_tree {
   public:
-    Bit(int size, T z): N(size), zero(z), bit(size+1, z) {
+    fenwick_tree(int size, T z): N(size), zero(z), bit(size+1, z) {
     }
 
     // [1,k]
