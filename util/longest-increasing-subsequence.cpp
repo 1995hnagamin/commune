@@ -1,7 +1,7 @@
 template<typename T, T inf>
-class Lis {
+class longest_incr_seq {
   public:
-    Lis(std::vector<T> const &s):
+    longest_incr_seq(std::vector<T> const &s):
       n(s.size()), seq(s), dp(n, inf) {}
     size_t solve() {
       for (size_t i = 0; i < n; ++i) {
