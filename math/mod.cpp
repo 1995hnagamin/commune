@@ -65,11 +65,11 @@ constexpr modulo<mod> const operator/(modulo<mod> a, modulo<mod> b) {
 }
 
 template<int mod, int size>
-struct Factorial {
+struct factorial {
   using Mod = modulo<mod>;
   Mod fact[size];
   Mod invfact[size];
-  constexpr Factorial(): fact(), invfact() {
+  constexpr factorial(): fact(), invfact() {
     fact[0] = 1;
     for (int i = 1; i < size; ++i) {
       fact[i] = Mod(i) * fact[i-1];
