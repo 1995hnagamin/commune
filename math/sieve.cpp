@@ -1,6 +1,6 @@
 template<int size>
-struct Sieve {
-  Sieve(): factor(), primes() {
+struct sieve {
+  sieve(): factor(), primes() {
     factor[0] = factor[1] = 1;
     for (int p = 2; p < size; ++p) {
       if (factor[p]) { continue; }
