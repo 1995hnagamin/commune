@@ -75,9 +75,8 @@ class RollingHash {
   private:
     template <typename I>
     static std::array<T, L> convert(std::array<I, L> const &v) {
-      auto const n = v.size();
       std::array<T, L> w;
-      for (size_t i = 0; i < n; ++i) {
+      for (size_t i = 0, n = v.size(); i < n; ++i) {
         w[i] = static_cast<T>(v[i]);
       }
       return w;
