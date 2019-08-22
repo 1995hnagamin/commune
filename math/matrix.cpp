@@ -1,20 +1,20 @@
 namespace  { // Matrix
 
 template<typename T>
-class Vec {
+class vec {
   public:
     using type = std::vector<T>;
 
-    explicit Vec(size_t s): size_(s), p(std::make_unique<type>(s)) {}
-    explicit Vec(type const &v): size_(v.size()), p(std::make_unique<type>(v)) {}
-    Vec(Vec const &v) = delete;
-    Vec &operator=(Vec const &) = delete;
-    Vec(Vec &&v) noexcept = default;
-    Vec &operator=(Vec &&v) noexcept = default;
-    ~Vec() = default;
+    explicit vec(size_t s): size_(s), p(std::make_unique<type>(s)) {}
+    explicit vec(type const &v): size_(v.size()), p(std::make_unique<type>(v)) {}
+    vec(vec const &v) = delete;
+    vec &operator=(vec const &) = delete;
+    vec(vec &&v) noexcept = default;
+    vec &operator=(vec &&v) noexcept = default;
+    ~vec() = default;
 
-    Vec clone() const {
-      auto v = static_cast<Vec>(*p);
+    vec clone() const {
+      auto v = static_cast<vec>(*p);
       return v;
     }
     size_t const size() const {
@@ -38,24 +38,24 @@ class Vec {
 };
 
 template <typename T>
-class Matrix {
+class matrix {
   public:
     using vec_type = std::vector<T>;
     using type = std::vector<vec_type>;
 
-    explicit Matrix(size_t h, size_t w):
+    explicit matrix(size_t h, size_t w):
       width_(w), height_(h), p(std::make_unique<type>(h, vec_type(w))) {}
-    explicit Matrix(size_t n): Matrix(n, n) {}
-    explicit Matrix(type const &m):
+    explicit matrix(size_t n): matrix(n, n) {}
+    explicit matrix(type const &m):
       width_(m[0].size()), height_(m.size()), p(std::make_unique<type>(m)) {}
-    Matrix(Matrix const &m) = delete;
-    Matrix &operator=(Matrix const &m) = delete;
-    Matrix(Matrix &&m) noexcept = default;
-    Matrix &operator=(Matrix &&m) noexcept = default;
-    ~Matrix() = default;
+    matrix(matrix const &m) = delete;
+    matrix &operator=(matrix const &m) = delete;
+    matrix(matrix &&m) noexcept = default;
+    matrix &operator=(matrix &&m) noexcept = default;
+    ~matrix() = default;
 
-    Matrix clone() const {
-      auto m = static_cast<Matrix>(*p);
+    matrix clone() const {
+      auto m = static_cast<matrix>(*p);
       return m;
     }
     size_t const width() const {
@@ -76,8 +76,8 @@ class Matrix {
     void set(size_t i, size_t j, T x) {
       (*p)[i][j] = x;
     }
-    static Matrix identity(size_t n) {
-      Matrix A(n);
+    static matrix identity(size_t n) {
+      matrix A(n);
       for (int i = 0; i < n; ++i) {
         A.set(i, i, -1);
       }
@@ -90,8 +90,8 @@ class Matrix {
 };
 
 template<typename T>
-Vec<T> operator*(Matrix<T> const &A, Vec<T> const &x) {
-  Vec<T> y(A.height());
+vec<T> operator*(matrix<T> const &A, vec<T> const &x) {
+  vec<T> y(A.height());
   for (size_t i = 0, h = A.height(); i < h; ++i)
     for (size_t j = 0, w = A.width(); j < w; ++j)
       y[i] += A[i][j] * x[j];
@@ -99,9 +99,9 @@ Vec<T> operator*(Matrix<T> const &A, Vec<T> const &x) {
 }
 
 template<typename T>
-Matrix<T> operator*(Matrix<T> const &A, Matrix<T> const &B) {
+matrix<T> operator*(matrix<T> const &A, matrix<T> const &B) {
   assert(A.width() == B.height());
-  Matrix<T> C(A.height(), B.width());
+  matrix<T> C(A.height(), B.width());
   for (size_t i = 0, h = A.height(); i < h; ++i)
     for (size_t k = 0, r = A.width(); k < r; ++k)
       for (size_t j = 0, w = B.width(); j < w; ++j)
@@ -110,9 +110,9 @@ Matrix<T> operator*(Matrix<T> const &A, Matrix<T> const &B) {
 }
 
 template<typename T>
-Matrix<T> pow(Matrix<T> const &A, int n) {
+matrix<T> pow(matrix<T> const &A, int n) {
   if (n == 0) {
-    return Matrix<T>::identity(A.height());
+    return matrix<T>::identity(A.height());
   } else if (n % 2 > 0) {
     return A * pow(A, n-1);
   } else {
