@@ -1,47 +1,47 @@
 namespace { // Permutation
 
-class Permutation {
+class permutation {
   public:
-    explicit Permutation(size_t n): dat(n) {
+    explicit permutation(size_t n): dat(n) {
       for (size_t i = 0; i < n; ++i) { dat[i] = i; }
     }
-    explicit Permutation(std::vector<size_t> const &v): dat(v) {}
+    explicit permutation(std::vector<size_t> const &v): dat(v) {}
     size_t at(size_t i) const { return dat[i]; }
     size_t size() const { return dat.size(); }
   private:
     std::vector<size_t> dat;
 };
 
-Permutation const
-compose(Permutation const &sigma, Permutation const &tau) {
+permutation const
+compose(permutation const &sigma, permutation const &tau) {
   assert(sigma.size() == tau.size());
   const auto n = sigma.size();
   std::vector<size_t> v;
   for (size_t i = 0; i < n; ++i) {
     v[i] = sigma.at(tau.at(i));
   }
-  return Permutation(v);
+  return permutation(v);
 }
 
-Permutation const
-operator *(Permutation const &sigma, Permutation const &tau) {
+permutation const
+operator *(permutation const &sigma, permutation const &tau) {
   return compose(sigma, tau);
 }
 
-Permutation const
-inverse(Permutation const &sigma) {
+permutation const
+inverse(permutation const &sigma) {
   const auto n = sigma.size();
   std::vector<size_t> v(n);
   for (size_t i = 0; i < n; ++i) {
     v[sigma.at(i)] = i;
   }
-  return Permutation(v);
+  return permutation(v);
 }
 
-Permutation const
-pow(Permutation const &sigma, size_t n) {
-  Permutation x(n);
-  Permutation a = sigma;
+permutation const
+pow(permutation const &sigma, size_t n) {
+  permutation x(n);
+  permutation a = sigma;
   while (n) {
     if (n & 1) { x = x * a; }
     a = a * a;
@@ -51,7 +51,7 @@ pow(Permutation const &sigma, size_t n) {
 }
 
 std::vector<std::vector<size_t>>
-cycle_decomposition(Permutation const &sigma) {
+cycle_decomposition(permutation const &sigma) {
   size_t const n = sigma.size();
   std::vector<std::vector<size_t>> ans;
   std::vector<bool> used(n);
