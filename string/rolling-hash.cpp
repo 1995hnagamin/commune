@@ -1,8 +1,8 @@
 namespace { // rolling-hash
 
 template <typename T, size_t L>
-struct PowMemo {
-  PowMemo(std::array<T, L> const &base, size_t n): p(base), table(), sz(n) {
+struct memoized_expt {
+  memoized_expt(std::array<T, L> const &base, size_t n): p(base), table(), sz(n) {
     for (size_t z = 0; z < L; ++z) {
       table[z] = std::vector<T>(n+1);
       table[z][0] = static_cast<T>(1);
@@ -26,8 +26,8 @@ struct PowMemo {
 };
 
 template <typename T, size_t L>
-struct RepSq {
-  RepSq(std::array<T, L> const &base, size_t): p(base) { }
+struct sq_expt {
+  sq_expt(std::array<T, L> const &base, size_t): p(base) { }
   T pow(size_t z, int k) const {
     T val(1), a(p[z]);
     while (k > 0) {
@@ -40,11 +40,11 @@ struct RepSq {
   std::array<T, L> p;
 };
 
-template<typename T, size_t L, template <class, size_t> class Pow = PowMemo>
-class RollingHash {
+template<typename T, size_t L, template <class, size_t> class Pow = memoized_expt>
+class rolling_hash {
   public:
     template <typename I>
-    explicit RollingHash(std::string const &s, std::array<I, L> const &base):
+    explicit rolling_hash(std::string const &s, std::array<I, L> const &base):
       str(s), n(str.size()), pow(convert(base), n), phash() {
       for (size_t z = 0; z < L; ++z) {
         phash[z] = std::vector<T>(n+1);
