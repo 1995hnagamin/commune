@@ -1,72 +1,72 @@
 namespace  { // Mod
 
 template<int mod>
-class Modulo {
+class modulo {
   public:
-    constexpr Modulo(): num(0) {}
-    constexpr Modulo(int n): num(n >= 0 ? n%mod : mod-((-n)%mod)) {}
-    constexpr Modulo(Modulo const &) = default;
+    constexpr modulo(): num(0) {}
+    constexpr modulo(int n): num(n >= 0 ? n%mod : mod-((-n)%mod)) {}
+    constexpr modulo(modulo const &) = default;
     constexpr int data() const { return num; }
-    constexpr Modulo &operator+=(Modulo other) {
+    constexpr modulo &operator+=(modulo other) {
       num = (num + other.num) % mod;
       return *this;
     }
-    constexpr Modulo &operator-=(Modulo other) {
+    constexpr modulo &operator-=(modulo other) {
       num = (num + mod - other.num) % mod;
       return *this;
     }
-    constexpr Modulo &operator*=(Modulo other) {
+    constexpr modulo &operator*=(modulo other) {
       long long n = ((long long)num) * ((long long)other.num);
       num = n % mod;
       return *this;
     }
-    constexpr Modulo &operator/=(Modulo other) {
+    constexpr modulo &operator/=(modulo other) {
       *this *= other.inverse();
       return *this;
     }
-    constexpr static Modulo pow(Modulo a, int n, Modulo res) {
+    constexpr static modulo pow(modulo a, int n, modulo res) {
       if (n == 0) { return res; }
       return pow(a*a, n/2, (n&1)?(res*a):res);
     }
-    constexpr Modulo inverse() const {
-      return pow(*this, mod-2, Modulo(1));
+    constexpr modulo inverse() const {
+      return pow(*this, mod-2, modulo(1));
     }
   private:
     int num;
 };
 
 template<int mod>
-constexpr Modulo<mod> const operator+(Modulo<mod> a, Modulo<mod> b) {
+constexpr modulo<mod> const operator+(modulo<mod> a, modulo<mod> b) {
   a += b;
   return a;
 }
 
 template<int mod>
-constexpr Modulo<mod> const operator-(Modulo<mod> a, Modulo<mod> b) {
+constexpr modulo<mod> const operator-(modulo<mod> a, modulo<mod> b) {
   a -= b;
   return a;
 }
 
 template<int mod>
-constexpr Modulo<mod> const operator*(Modulo<mod> a, Modulo<mod> b) {
+constexpr modulo<mod> const operator*(modulo<mod> a, modulo<mod> b) {
   a *= b;
   return a;
 }
 
 template<int mod>
-constexpr Modulo<mod> const pow(Modulo<mod> a, int n) {
-  return Modulo<mod>::pow(a, n, 1);
+constexpr modulo<mod> const pow(modulo<mod> a, int n) {
+  return modulo<mod>::pow(a, n, 1);
 }
 
 template<int mod>
-constexpr Modulo<mod> const operator/(Modulo<mod> a, Modulo<mod> b) {
+constexpr modulo<mod> const operator/(modulo<mod> a, modulo<mod> b) {
   a /= b;
   return a;
 }
 
 template<int mod, int size>
 struct Factorial {
-  using Mod = Modulo<mod>;
+  using Mod = modulo<mod>;
   Mod fact[size];
   Mod invfact[size];
   constexpr Factorial(): fact(), invfact() {
