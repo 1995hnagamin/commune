@@ -1,12 +1,12 @@
-class FordFulkerson {
+class ford_fulkerson {
   public:
     struct edge {
       explicit edge(size_t t, int c, size_t r) : to(t), cap(c), rev(r) {}
       size_t to; int cap; size_t rev;
     };
 
-    explicit FordFulkerson(size_t v): G(v), used(v) {}
-    ~FordFulkerson() = default;
+    explicit ford_fulkerson(size_t v): G(v), used(v) {}
+    ~ford_fulkerson() = default;
 
     void add_edge(size_t from, size_t to, int cap) {
       G[from].emplace_back(to, cap, G[to].size());
