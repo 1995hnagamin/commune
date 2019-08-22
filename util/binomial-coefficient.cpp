@@ -1,7 +1,7 @@
 template<typename T, int max>
-class Binom {
+class binom {
   public:
-    constexpr Binom(): dp() {
+    constexpr binom(): dp() {
       for (int n = 0; n <= max; ++n) {
         dp[n][0] = dp[n][n] = static_cast<T>(1);
         for (int k = 1; k < n; ++k) {
