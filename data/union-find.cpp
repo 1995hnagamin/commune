@@ -1,6 +1,6 @@
-class UnionFindTree {
+class union_find_tree {
   public:
-    explicit UnionFindTree(size_t n): par(n), rank(n, 0) {
+    explicit union_find_tree(size_t n): par(n), rank(n, 0) {
       for (size_t i = 0; i < n; ++i) {
         par[i] = i;
       }
