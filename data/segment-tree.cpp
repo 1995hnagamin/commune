@@ -1,12 +1,12 @@
 namespace { // segment-tree
 
 template<typename T, typename FnT>
-class SegmentTree {
+class segment_tree {
   public:
-    explicit SegmentTree(FnT const &app, T const &un, size_t size):
-      SegmentTree(app, un, std::vector<T>(size, un)) {
+    explicit segment_tree(FnT const &app, T const &un, size_t size):
+      segment_tree(app, un, std::vector<T>(size, un)) {
     }
-    explicit SegmentTree(FnT const &app, T const &un, std::vector<T> const &v):
+    explicit segment_tree(FnT const &app, T const &un, std::vector<T> const &v):
       append(app), unit(un), N(1 << log2(v.size())), dat(2*N-1) {
       std::copy(begin(v), end(v), begin(dat)+N-1);
       for (size_t k = N - 1; k > 0; --k) {
@@ -52,15 +52,15 @@ class SegmentTree {
 };
 
 template<typename T, typename FnT>
-SegmentTree<T, typename std::decay<FnT>::type>
+segment_tree<T, typename std::decay<FnT>::type>
 make_segment_tree(FnT const &app, T const &un, size_t size) {
-  return SegmentTree<T, typename std::decay<FnT>::type>(app, un, size);
+  return segment_tree<T, typename std::decay<FnT>::type>(app, un, size);
 }
 
 template<typename T, typename FnT>
-SegmentTree<T, typename std::decay<FnT>::type>
+segment_tree<T, typename std::decay<FnT>::type>
 make_segment_tree(FnT const &app, T const &un, std::vector<T> const &v) {
-  return SegmentTree<T, typename std::decay<FnT>::type>(app, un, v);
+  return segment_tree<T, typename std::decay<FnT>::type>(app, un, v);
 }
 
 } // namespace
