@@ -1,5 +1,5 @@
 template<typename T, T(*append)(T,T)>
-class Segtree {
+class persistent_segment_tree {
   public:
     struct Node {
       int lp, rp; // [l, r)
@@ -55,7 +55,7 @@ class Segtree {
       return query(roots[idx], a, b);
     }
 
-    Segtree(int n_, T empty_) {
+    persistent_segment_tree(int n_, T empty_) {
       int n = 1;
       empty = empty_;
       while (n < n_) n*=2;
