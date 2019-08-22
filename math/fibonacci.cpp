@@ -8,7 +8,7 @@ class fibonacci_seq {
       dat[0] = zth, dat[1] = fst;
       for (size_t i = 2; i < N; ++i) { dat[i] = dat[i-1] + dat[i-2]; }
     }
-    constexpr fibonacci_seq(): fibonacci_seq(1, 1) {
+    constexpr fibonacci_seq(): fibonacci_seq(0, 1) {
     }
     constexpr T operator[] (size_t i) const {
       assert(i < N);
@@ -35,12 +35,12 @@ constexpr std::bitset<N> zeckendorf_sum(T n) {
   return used;
 }
 
-// O(N * 1.62^N)
+// O(Cap * 1.62^N)
 template <size_t Cap, typename FnT>
 void zeckendorf_scan(size_t N, FnT fn) {
   assert(N <= Cap);
   using T = uint64_t;
-  auto const limit = fibonacci_seq<T, Cap+2>()[N+1];
+  auto const limit = fibonacci_seq<T, Cap+1>(1, 2)[N];
   for (T s = 0; s < limit; ++s) {
     fn(zeckendorf_sum<Cap>(s));
   }
