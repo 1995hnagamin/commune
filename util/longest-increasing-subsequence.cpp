@@ -1,5 +1,5 @@
 template <typename T>
-size_t longest_incr_seq(std::vector<T> const &seq, T infty) {
+size_t longest_incr_subseq(std::vector<T> const &seq, T infty) {
   size_t const n = s.size();
   std::vector<T> dp(n, infty);
   for (size_t i = 0; i < n; ++i) {
@@ -11,7 +11,7 @@ size_t longest_incr_seq(std::vector<T> const &seq, T infty) {
 }
 
 template <typename T, typename FnT>
-size_t longest_incr_seq(std::vector<T> const &seq, T infty, FnT comp) {
+size_t longest_incr_subseq(std::vector<T> const &seq, T infty, FnT comp) {
   size_t const n = s.size();
   std::vector<T> dp(n, infty);
   for (size_t i = 0; i < n; ++i) {
