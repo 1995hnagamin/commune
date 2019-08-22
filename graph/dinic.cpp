@@ -1,4 +1,4 @@
-class Dinic {
+class dinic {
   public:
     struct edge {
       explicit edge(size_t t, int c, size_t r):
@@ -6,8 +6,8 @@ class Dinic {
       size_t to; int cap; size_t rev;
     };
 
-    explicit Dinic(size_t v): G(v), level(v) {}
-    ~Dinic() = default;
+    explicit dinic(size_t v): G(v), level(v) {}
+    ~dinic() = default;
 
     void add_edge(size_t from, size_t to, int cap) {
       G[from].emplace_back(to, cap, G[to].size());
