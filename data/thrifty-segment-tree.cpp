@@ -46,7 +46,7 @@ class thrifty_segment_tree {
       }
     };
     explicit thrifty_segment_tree(FnT const &app, T const &un, IndexT n):
-      append(app), unit(un), N(1 << log2(n)),
+      append(app), unit(un), N(p2cl2(N)),
       root(std::make_unique<Node>(un, 0, N)) {
     }
     thrifty_segment_tree(thrifty_segment_tree &&) = default;
@@ -69,10 +69,10 @@ class thrifty_segment_tree {
     size_t const N;
     std::unique_ptr<Node> root;
 
-    static size_t log2(size_t n) {
-      size_t p = 1;
-      while ((1 << p) < n) { ++p; }
-      return p;
+    static IndexT p2cl2(IndexT n) {
+      IndexT N = 1;
+      while (N < n) { N *= 2; }
+      return N;
     }
 };
 
