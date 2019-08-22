@@ -75,4 +75,11 @@ class ThriftySegmentTree {
     }
 };
 
+template<typename T, typename FnT, typename IndexT = int>
+ThriftySegmentTree<T, typename std::decay<FnT>::type, IndexT>
+make_thrifty_segment_tree(FnT const &app, T const &un, IndexT n) {
+  using F = typename std::decay<FnT>::type;
+  return ThriftySegmentTree<T, F, IndexT>(app, un, n);
+}
+
 } // namespace
