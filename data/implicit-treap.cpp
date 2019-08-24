@@ -49,9 +49,7 @@ class itreap {
 
     explicit itreap(std::shared_ptr<Serv> s, size_t N, T v): srv(s), root() {
       for (size_t i = 0; i < N; ++i) {
-        auto const p = srv->generate_priority();
-        root = node_t::merge(std::move(root), std::make_unique<node_t>(v, p),
-            srv->get_op(), srv->get_unit());
+        push_back(v);
       }
     }
     explicit itreap(std::shared_ptr<Serv> s, ptr_t &&r): srv(s), root(std::move(r)) {}
@@ -61,12 +59,16 @@ class itreap {
     void update(size_t idx, T v) {
       auto right = eliminate(idx+1);
       eliminate(idx);
-      auto const p = srv->generate_priority();
-      root = node_t::merge(std::move(root), std::make_unique<node_t>(v, p), srv->get_op(), srv->get_unit());
+      push_back(v);
       merge(std::move(right));
     }
     void merge(itreap &&right) {
       root = node_t::merge(std::move(root), std::move(right.root), srv->get_op(), srv->get_unit());
+    }
+    void push_back(T v) {
+      auto const p = srv->generate_priority();
+      root = node_t::merge(std::move(root), std::make_unique<node_t>(v, p),
+          srv->get_op(), srv->get_unit());
     }
     itreap eliminate(size_t N) {
       auto s = node_t::split(std::move(root), N, srv->get_op(), srv->get_unit());
@@ -75,8 +77,7 @@ class itreap {
     }
     void insert(size_t idx, T v) {
       auto const right = eliminate(idx);
-      auto const p = srv->generate_priority();
-      merge(std::make_unique<node_t>(v, p));
+      push_back(v);
       merge(std::move(right));
     }
     void erase(size_t idx) {
