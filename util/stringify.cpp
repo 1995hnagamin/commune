@@ -1,10 +1,5 @@
 namespace { // stringify
 
-__attribute__((unused))
-void stringify_helper(std::ostringstream &oss, std::string const &s) {
-  oss << '\"' << s << '\"';
-}
-
 template<typename T>
 __attribute__((unused))
 void stringify_helper(std::ostringstream &oss, T const &x) {
