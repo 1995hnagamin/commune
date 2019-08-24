@@ -7,6 +7,11 @@ void stringify_helper(std::ostringstream &oss, T const &x) {
 }
 
 __attribute__((unused))
+void stringify_helper(std::ostringstream &oss, char const *s) {
+  oss << "\"" << s << "\"";
+}
+
+__attribute__((unused))
 void stringify_helper(std::ostringstream &oss, std::string const &s) {
   oss << "\"" << s << "\"";
 }
