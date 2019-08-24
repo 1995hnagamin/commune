@@ -20,7 +20,7 @@ class union_find_tree {
         par[i] = j;
       } else {
         par[j] = i;
-        if (rank[i] = rank[j]) { rank[i]++; }
+        if ((rank[i] = rank[j])) { rank[i]++; }
       }
     }
 
