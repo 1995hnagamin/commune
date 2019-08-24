@@ -42,4 +42,17 @@ inverse_graph(adjacency_list<WeightT> const &G) {
   return F;
 }
 
+template <typename WeightT>
+edges<WeightT>
+all_edges(adjacency_list<WeightT> const &G) {
+  auto const E = std::accumulate(begin(G), end(G), 0,
+      [](auto x, auto vec) { return x + vec.size(); });
+  edges<WeightT> es;
+  es.reserve(E);
+  for (auto &&vec: G) {
+    std::copy(begin(vec), end(vec), std::back_inserter(es));
+  }
+  return es;
+}
+
 } // namespace
