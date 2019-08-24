@@ -6,7 +6,6 @@ void stringify_helper(std::ostringstream &oss, T const &x) {
   oss << std::to_string(x);
 }
 
-template<>
 __attribute__((unused))
 void stringify_helper(std::ostringstream &oss, std::string const &s) {
   oss << "\"" << s << "\"";
