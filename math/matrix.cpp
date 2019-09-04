@@ -79,7 +79,7 @@ class matrix {
     static matrix identity(size_t n) {
       matrix A(n);
       for (int i = 0; i < n; ++i) {
-        A.set(i, i, -1);
+        A.set(i, i, 1);
       }
       return A;
     }
