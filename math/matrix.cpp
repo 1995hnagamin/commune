@@ -110,14 +110,17 @@ matrix<T> operator*(matrix<T> const &A, matrix<T> const &B) {
 }
 
 template<typename T>
-matrix<T> pow(matrix<T> const &A, int n) {
-  if (n == 0) {
-    return matrix<T>::identity(A.height());
-  } else if (n % 2 > 0) {
-    return A * pow(A, n-1);
-  } else {
-    return pow(A * A, n/2);
+matrix<T> pow(matrix<T> const &A, lli n) {
+  auto M = A.clone();
+  auto ans = matrix<T>::identity(M.height());
+  while (n > 0) {
+    if (n & 1) {
+      ans = ans * M;
+    }
+    M = M * M;
+    n >>= 1;
   }
+  return ans;
 }
 
 } // namespace
