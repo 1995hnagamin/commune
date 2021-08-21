@@ -46,7 +46,7 @@ class thrifty_segment_tree {
       }
     };
     explicit thrifty_segment_tree(FnT const &app, T const &un, IndexT n):
-      append(app), unit(un), N(p2cl2(N)),
+      append(app), unit(un), N(p2cl2(n)),
       root(std::make_unique<node>(un, 0, N)) {
     }
     thrifty_segment_tree(thrifty_segment_tree &&) = default;
